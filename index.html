@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>モンスト ランク解放カレンダー</title>
+    <style>
+        :root {
+            --primary-color: #1976d2;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --bg-color: #f0f2f5;
+        }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg-color); color: #333; margin: 0; padding: 15px 10px; -webkit-text-size-adjust: 100%; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { text-align: center; color: #d32f2f; font-size: 1.4rem; margin-bottom: 20px; }
+        
+        .card { background: #fff; padding: 20px 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .header-inputs { grid-template-columns: 1fr 1fr 100px; }
+        
+        label { font-size: 0.85rem; font-weight: bold; color: #555; display: block; margin-bottom: 6px; }
+        
+        /* スマホでタップしやすく、iOSズームを防ぐ(16px以上) */
+        input { width: 100%; padding: 14px 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; font-family: inherit; }
+        input[type="date"] { padding: 12px 10px; }
+        input[readonly] { background-color: #f5f5f5; color: #888; border-color: #e0e0e0; }
+        input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2); }
+        
+        .stats-bar { display: flex; justify-content: space-around; background: #2c3e50; color: #fff; padding: 15px 10px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; text-align: center; line-height: 1.4; }
+        .quota-highlight { font-size: 1.4rem; color: #ffeb3b; font-weight: bold; display: block; margin-top: 4px; }
+        .req-highlight { font-size: 1.2rem; font-weight: bold; display: block; margin-top: 4px; }
+
+        /* カレンダー スタイル */
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .day-label { text-align: center; font-weight: bold; font-size: 0.75rem; color: #7f8c8d; padding-bottom: 5px; }
+        .day-cell { background: #fff; border: 1px solid #ecf0f1; min-height: 75px; padding: 4px; border-radius: 6px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+        .day-num { font-size: 0.85rem; color: #95a5a6; }
+        .day-exp { font-size: 0.7rem; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: auto; padding-bottom: 2px; }
+        .day-status { font-size: 0.75rem; font-weight: bold; text-align: right; }
+        
+        .bg-success { background-color: #e8f5e9; border-color: #c8e6c9; }
+        .bg-error { background-color: #fff8e1; border-color: #ffecb3; }
+        .text-success { color: var(--success-color); }
+        .text-error { color: #e65100; }
+
+        /* 消去ボタンのスマホ最適化 */
+        .delete-btn {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .delete-btn:hover { background: #d32f2f; }
+
+        button { font-family: inherit; }
+        .main-btn { background-color: var(--primary-color); color: white; border: none; padding: 16px; border-radius: 10px; cursor: pointer; width: 100%; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2); transition: background-color 0.2s; }
+        .main-btn:active { background-color: #1565c0; transform: translateY(1px); box-shadow: 0 2px 3px rgba(25, 118, 210, 0.2); }
+        .btn-sub { background-color: #78909c; padding: 10px 15px; font-size: 0.9rem; font-weight: bold; color: white; border: none; border-radius: 6px; cursor: pointer;}
+        .btn-danger { background-color: #e0e0e0; color: #555; }
+
+        /* スマホ向けレスポンシブデザイン (横幅600px以下で発動) */
+        @media (max-width: 600px) {
+            .grid-inputs, .header-inputs { grid-template-columns: 1fr; gap: 12px; }
+            .stats-bar { flex-direction: column; gap: 15px; }
+            .day-cell { min-height: 65px; padding: 2px; }
+            .day-num { font-size: 0.75rem; }
+            .day-exp { font-size: 0.65rem; letter-spacing: -0.5px; }
+            .day-status { font-size: 0.65rem; }
+            .delete-btn { width: 18px; height: 18px; font-size: 10px; top: -2px; right: -2px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ランク解放トラッカー</h1>
+
+    <div class="card">
+        <h3>基本データ <span style="font-size: 0.75rem; font-weight: normal; color: #666;">(間違えた時は直接修正)</span></h3>
+        <div class="grid-inputs header-inputs">
+            <div>
+                <label>目標累計経験値</label>
+                <input type="number" id="targetExp" inputmode="numeric" onchange="updateConfig()">
+            </div>
+            <div>
+                <label>現在の累計経験値</label>
+                <input type="number" id="currentExp" inputmode="numeric" onchange="updateConfig()">
+            </div>
+            <div>
+                <label>残り日数</label>
+                <input type="number" id="remainingDays" inputmode="numeric" onchange="updateConfig()">
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        <div>目標まであと<span id="displayReqExp" class="req-highlight">---</span></div>
+        <div>一日のノルマ<span id="displayQuota" class="quota-highlight">---</span></div>
+    </div>
+
+    <div class="card">
+        <h3>記録入力</h3>
+        <div style="margin-bottom: 15px;">
+            <label>記録する日付</label>
+            <input type="date" id="recordDate" style="width: auto; min-width: 150px;">
+        </div>
+        <div class="grid-inputs">
+            <div>
+                <label>①開始時の累計 (自動入力)</label>
+                <input type="number" id="startExp" readonly>
+            </div>
+            <div>
+                <label>②終了時の累計を入力</label>
+                <input type="number" id="endExp" inputmode="numeric" placeholder="今の累計を入力">
+            </div>
+        </div>
+        <button class="main-btn" onclick="recordDaily()">カレンダーに記録する</button>
+    </div>
+
+    <div class="card">
+        <div class="calendar-header">
+            <button class="btn-sub" style="width: auto;" onclick="changeMonth(-1)">◀ 先月</button>
+            <h3 id="calendarMonth" style="margin: 0; font-size: 1.1rem;">2023年 10月</h3>
+            <button class="btn-sub" style="width: auto;" onclick="changeMonth(1)">翌月 ▶</button>
+        </div>
+        <div id="calendar" class="calendar-grid">
+            </div>
+        
+        <div style="text-align: right; margin-top: 20px;">
+            <button class="btn-sub btn-danger" style="width: auto;" onclick="resetAll()">全データをリセット</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let history = JSON.parse(localStorage.getItem('monst_history')) || {};
+    let config = JSON.parse(localStorage.getItem('monst_config')) || {
+        target: 1000000000,
+        current: 500000000,
+        days: 195
+    };
+
+    let currentViewDate = new Date();
+
+    function getLocalToday() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function init() {
+        document.getElementById('targetExp').value = config.target;
+        document.getElementById('currentExp').value = config.current;
+        document.getElementById('remainingDays').value = config.days;
+        document.getElementById('recordDate').value = getLocalToday();
+        refreshDisplay();
+    }
+
+    function updateConfig() {
+        config.target = Number(document.getElementById('targetExp').value);
+        config.current = Number(document.getElementById('currentExp').value);
+        config.days = Number(document.getElementById('remainingDays').value);
+        save();
+        refreshDisplay();
+    }
+
+    function recordDaily() {
+        const targetDate = document.getElementById('recordDate').value;
+        const start = Number(document.getElementById('startExp').value);
+        const end = Number(document.getElementById('endExp').value);
+        const gain = end - start;
+
+        if (!targetDate) return alert("日付を選択してください");
+        if (!end) return alert("終了時の累計経験値を入力してください");
+        if (gain < 0) return alert("終了時の累計が開始時より小さくなっています！");
+
+        if (history[targetDate]) {
+            if (!confirm(`${targetDate} の記録はすでに存在します。上書きしますか？`)) {
+                return;
+            }
+        }
+
+        const quota = calculateCurrentQuota();
+
+        history[targetDate] = {
+            start: start,
+            end: end,
+            gain: gain,
+            quota: quota,
+            diff: gain - quota
+        };
+
+        config.current = end;
+        if (!history[targetDate] || config.days > 0) {
+            config.days -= 1; 
+        }
+
+        save();
+        
+        document.getElementById('endExp').value = "";
+        document.getElementById('currentExp').value = config.current;
+        document.getElementById('remainingDays').value = config.days;
+        
+        refreshDisplay();
+        
+        // 入力完了後にスマホのキーボードを閉じるための小技
+        document.getElementById('endExp').blur();
+    }
+
+    function deleteRecord(dateStr, event) {
+        event.stopPropagation();
+
+        if(confirm(`${dateStr} の記録を消去しますか？\n※消去後、上部の「現在の累計経験値」と「残り日数」は手動で正しい数値に戻してください。`)) {
+            delete history[dateStr];
+            save();
+            refreshDisplay();
+        }
+    }
+
+    function calculateCurrentQuota() {
+        const remainingExp = config.target - config.current;
+        return config.days > 0 && remainingExp > 0 ? Math.ceil(remainingExp / config.days) : 0;
+    }
+
+    function refreshDisplay() {
+        document.getElementById('startExp').value = config.current;
+
+        const remainingExp = config.target - config.current;
+        const quota = calculateCurrentQuota();
+
+        document.getElementById('displayReqExp').innerText = remainingExp > 0 ? remainingExp.toLocaleString() : "達成！";
+        document.getElementById('displayQuota').innerText = quota.toLocaleString();
+        
+        renderCalendar();
+    }
+
+    function renderCalendar() {
+        const year = currentViewDate.getFullYear();
+        const month = currentViewDate.getMonth();
+        document.getElementById('calendarMonth').innerText = `${year}年 ${month + 1}月`;
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const lastDate = new Date(year, month + 1, 0).getDate();
+        
+        const container = document.getElementById('calendar');
+        container.innerHTML = "";
+
+        const days = ['日', '月', '火', '水', '木', '金', '土'];
+        days.forEach(d => {
+            const el = document.createElement('div');
+            el.className = 'day-label';
+            el.innerText = d;
+            container.appendChild(el);
+        });
+
+        for (let i = 0; i < firstDay; i++) {
+            container.appendChild(document.createElement('div'));
+        }
+
+        for (let d = 1; d <= lastDate; d++) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            const data = history[dateStr];
+            
+            const cell = document.createElement('div');
+            cell.className = 'day-cell';
+            
+            let content = `<div class="day-num">${d}</div>`;
+            
+            if (data) {
+                const isSuccess = data.diff >= 0;
+                cell.classList.add(isSuccess ? 'bg-success' : 'bg-error');
+                
+                content += `
+                    <button class="delete-btn" onclick="deleteRecord('${dateStr}', event)">✖</button>
+                    <div class="day-exp">${data.gain.toLocaleString()}</div>
+                    <div class="day-status ${isSuccess ? 'text-success' : 'text-error'}">
+                        ${isSuccess ? '+' : ''}${Math.floor(data.diff).toLocaleString()}
+                    </div>
+                `;
+            }
+            
+            cell.innerHTML = content;
+            container.appendChild(cell);
+        }
+    }
+
+    function changeMonth(offset) {
+        currentViewDate.setMonth(currentViewDate.getMonth() + offset);
+        renderCalendar();
+    }
+
+    function save() {
+        localStorage.setItem('monst_history', JSON.stringify(history));
+        localStorage.setItem('monst_config', JSON.stringify(config));
+    }
+
+    function resetAll() {
+        if(confirm("本当に全ての記録を削除して最初からやり直しますか？\n（この操作は取り消せません）")) {
+            localStorage.clear();
+            location.reload();
+        }
+    }
+
+    init();
+</script>
+
+</body>
+</html>
