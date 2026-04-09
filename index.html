@@ -68,7 +68,7 @@
         .text-reached { color: #2e7d32; margin-bottom: 2px; }
         .text-missed { color: #e65100; margin-bottom: 2px; }
         
-        /* ★下の数字も80%から75%へ微縮小し、中央にしっかり配置★ */
+        /* ★下の数字の左寄りを解消し、綺麗に中央配置★ */
         .day-gain { 
             font-size: 11px; 
             color: #333; 
@@ -76,9 +76,7 @@
             font-family: 'Helvetica Neue', Arial, sans-serif; 
             letter-spacing: -0.5px; 
             white-space: nowrap; 
-            display: block;
-            width: 135%; 
-            margin-left: -17.5%; 
+            display: inline-block; 
             text-align: center; 
             transform: scale(0.75); 
             transform-origin: center center;
