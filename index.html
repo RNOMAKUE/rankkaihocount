@@ -29,12 +29,9 @@
         .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
         .settings-grid input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
         
-        /* バックアップエリアのデザイン追加 */
-        .backup-area { margin-top: 15px; padding-top: 10px; border-top: 1px solid #bdbdbd; }
-        .backup-area label { font-size: 0.7rem; font-weight: bold; color: #555; margin-bottom: 4px; display: block; }
-        .backup-area input { width: 100%; padding: 8px; border: 1px solid #aaa; border-radius: 4px; font-size: 14px; box-sizing: border-box; margin-bottom: 8px;}
-        .backup-row { display: flex; gap: 8px; }
-        .backup-row button { flex: 1; padding: 10px; border: none; border-radius: 4px; font-weight: bold; color: white; cursor: pointer; font-size: 0.85rem;}
+        /* バックアップボタン用 */
+        .backup-row { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #bdbdbd; }
+        .backup-row button { flex: 1; padding: 8px; border: none; border-radius: 4px; font-weight: bold; color: white; cursor: pointer; font-size: 0.8rem;}
         .btn-export { background-color: #4caf50; }
         .btn-import { background-color: #ff9800; }
 
@@ -49,16 +46,10 @@
 
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .calendar-header h3 { margin: 0; font-size: 0.9rem; }
-
-        .calendar-grid { 
-            display: grid; 
-            grid-template-columns: repeat(7, 1fr); 
-            gap: 2px; 
-        }
-
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
         .day-label { text-align: center; font-weight: bold; font-size: 0.65rem; color: #7f8c8d; }
-        .day-cell { background: #fff; border: 1px solid #eee; min-height: 65px; padding: 2px; border-radius: 4px; position: relative; display: flex; flex-direction: column; justify-content: space-between; align-items: center; overflow: hidden; } 
-        .day-num { font-size: 0.65rem; color: #95a5a6; width: 100%; text-align: left; padding-left: 2px; box-sizing: border-box; } 
+        .day-cell { background: #fff; border: 1px solid #eee; min-height: 60px; padding: 2px; border-radius: 4px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+        .day-num { font-size: 0.7rem; color: #95a5a6; }
         
         .day-cell.is-today { border: 2px solid var(--today-border) !important; background-color: #e3f2fd; }
         .day-cell.is-today::after { content: "今日"; position: absolute; top: 0; right: 2px; font-size: 0.5rem; color: var(--today-border); font-weight: bold; }
@@ -66,26 +57,11 @@
         .status-reached { background-color: var(--success-bg); border-color: #a5d6a7; }
         .status-missed { background-color: var(--error-bg); border-color: #ffcc80; }
         
-        .day-info { font-size: 0.6rem; font-weight: bold; text-align: center; margin-top: auto; line-height: 1.1; width: 100%; display: flex; flex-direction: column; align-items: center; } 
-        .emoji { font-size: 0.8rem; display: block; margin-bottom: 2px; } 
-        .text-reached { color: #2e7d32; margin-bottom: 2px; }
-        .text-missed { color: #e65100; margin-bottom: 2px; }
-        
-        .day-gain { 
-            font-size: 11px; 
-            color: #333; 
-            font-weight: 800; 
-            font-family: 'Helvetica Neue', Arial, sans-serif; 
-            letter-spacing: -0.5px; 
-            white-space: nowrap; 
-            display: block;
-            width: 135%; 
-            margin-left: -17.5%; 
-            text-align: center; 
-            transform: scale(0.75); 
-            transform-origin: center center;
-            margin-top: 1px; 
-        }
+        .day-info { font-size: 0.6rem; font-weight: bold; text-align: center; margin-top: auto; line-height: 1.1; width: 100%; }
+        .emoji { font-size: 0.8rem; display: block; margin-bottom: 2px; }
+        .text-reached { color: #2e7d32; }
+        .text-missed { color: #e65100; }
+        .day-gain { font-size: 0.55rem; color: #666; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 
         .delete-btn { position: absolute; top: -2px; left: -2px; background: #f44336; color: white; border: none; border-radius: 50%; width: 16px; height: 16px; font-size: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 5; }
         .btn-danger { background: none; border: none; color: #999; font-size: 0.7rem; text-decoration: underline; width: 100%; margin-top: 10px; padding-bottom: 20px;}
@@ -112,14 +88,9 @@
             <div><label>現在の累計</label><input type="number" id="currentExp" inputmode="numeric" onchange="updateConfig()"></div>
             <div><label>残り日数</label><input type="number" id="remainingDays" inputmode="numeric" onchange="updateConfig()"></div>
         </div>
-        
-        <div class="backup-area">
-            <label>データ復元用コード貼り付け欄</label>
-            <input type="text" id="backupInput" placeholder="ここにバックアップ文字列をペースト">
-            <div class="backup-row">
-                <button class="btn-export" onclick="exportData()">💾 コードをコピー</button>
-                <button class="btn-import" onclick="importData()">🔄 上のコードで復元</button>
-            </div>
+        <div class="backup-row">
+            <button class="btn-export" onclick="exportData()">💾 バックアップ</button>
+            <button class="btn-import" onclick="importData()">🔄 データ復元</button>
         </div>
     </details>
 
@@ -140,9 +111,9 @@
 
     <div class="card">
         <div class="calendar-header">
-            <button onclick="changeMonth(-1)" style="background:none;border:none;color:#1976d2;font-weight:bold;padding:5px 10px;">◀ 先月</button>
+            <button onclick="changeMonth(-1)" style="background:none;border:none;color:#1976d2;font-weight:bold;">◀</button>
             <h3 id="calendarMonth">202X年 X月</h3>
-            <button onclick="changeMonth(1)" style="background:none;border:none;color:#1976d2;font-weight:bold;padding:5px 10px;">翌月 ▶</button>
+            <button onclick="changeMonth(1)" style="background:none;border:none;color:#1976d2;font-weight:bold;">▶</button>
         </div>
         <div id="calendar" class="calendar-grid"></div>
     </div>
@@ -273,7 +244,6 @@
             
             if (data) {
                 cell.classList.add(data.reached ? 'status-reached' : 'status-missed');
-                
                 content += `
                     <button class="delete-btn" onclick="deleteRecord('${dateStr}', event)">×</button>
                     <div class="day-info">
@@ -281,7 +251,7 @@
                         <span class="${data.reached ? 'text-reached' : 'text-missed'}">
                             ${data.reached ? '到達' : '未達'}
                         </span>
-                        <span class="day-gain">
+                        <span class="day-gain" title="+${data.gain.toLocaleString()}">
                             +${data.gain.toLocaleString()}
                         </span>
                     </div>`;
@@ -317,32 +287,27 @@
         }
     }
 
-    // ★ポップアップを使わない新しい方式に変更しました★
+    // --- バックアップ・復元機能 ---
     function exportData() {
         const data = { config: config, history: history };
         const dataStr = btoa(encodeURIComponent(JSON.stringify(data)));
         
-        // コピーできたら入力欄にもセットしておく（目視確認用）
-        const inputElem = document.getElementById('backupInput');
-        inputElem.value = dataStr;
-        
         if (navigator.clipboard) {
             navigator.clipboard.writeText(dataStr).then(() => {
                 alert("✅ バックアップコードをコピーしました！\niPhoneの「メモ帳」アプリなどに貼り付けて保存しておいてください。");
-            }).catch(() => {
-                alert("上の欄にコードを表示しました。全選択してコピーしてください。");
-            });
+            }).catch(() => fallbackCopy(dataStr));
         } else {
-            alert("上の欄にコードを表示しました。全選択してコピーしてください。");
+            fallbackCopy(dataStr);
         }
     }
 
+    function fallbackCopy(text) {
+        prompt("以下のテキストを全選択してコピーし、メモ帳に保存してください:", text);
+    }
+
     function importData() {
-        const code = document.getElementById('backupInput').value;
-        if (!code) {
-            alert("⚠️ 上の入力欄に復元コードを貼り付けてからボタンを押してください！");
-            return;
-        }
+        const code = prompt("メモ帳などに保存した「バックアップコード」を貼り付けてください");
+        if (!code) return;
         
         try {
             const data = JSON.parse(decodeURIComponent(atob(code)));
@@ -350,13 +315,12 @@
                 config = data.config;
                 history = data.history;
                 save();
+                
                 document.getElementById('targetExp').value = config.target;
                 document.getElementById('currentExp').value = config.current;
                 document.getElementById('remainingDays').value = config.days;
-                
-                // 成功したら入力欄を空にする
-                document.getElementById('backupInput').value = "";
                 refreshDisplay();
+                
                 alert("🎉 データの復元に成功しました！");
             } else {
                 alert("❌ コードの形式が間違っています");
