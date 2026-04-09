@@ -29,6 +29,7 @@
         .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
         .settings-grid input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
         
+        /* バックアップボタン用 */
         .backup-row { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #bdbdbd; }
         .backup-row button { flex: 1; padding: 8px; border: none; border-radius: 4px; font-weight: bold; color: white; cursor: pointer; font-size: 0.8rem;}
         .btn-export { background-color: #4caf50; }
@@ -57,22 +58,24 @@
         .status-missed { background-color: var(--error-bg); border-color: #ffcc80; }
         
         .day-info { font-size: 0.6rem; font-weight: bold; text-align: center; margin-top: auto; line-height: 1.1; width: 100%; }
-        .emoji { font-size: 0.8rem; display: block; margin-bottom: 0px; }
+        .emoji { font-size: 0.8rem; display: block; margin-bottom: 2px; } /* ★ここを0pxから2pxに調整 */
         .text-reached { color: #2e7d32; }
         .text-missed { color: #e65100; }
         
-        /* ↓ここを中間のベストサイズに再調整しました！↓ */
+        /* 数字をはみ出させずに全体縮小させる特製CSS */
         .day-gain { 
-            font-size: 10px; /* 基本サイズを10pxに戻す */
+            font-size: 10px; /* 基本サイズ */
             color: #333; 
             font-weight: 800; 
             font-family: 'Helvetica Neue', Arial, sans-serif; 
             letter-spacing: -0.6px; /* 文字同士を適度に詰める */
             white-space: nowrap; 
             display: block;
-            width: 135%; /* 枠を135%に広げる */
-            margin-left: -17.5%; /* 中央に配置 */
-            transform: scale(0.75); /* 85%は大きすぎたので、75%に調整！ */
+            /* 仮想的に枠を135%に広げる */
+            width: 135%;
+            margin-left: -17.5%; /* 広げた分、中央にズラす */
+            /* 全体を75%のサイズにギュッと縮小する */
+            transform: scale(0.75);
             transform-origin: center center;
         }
 
