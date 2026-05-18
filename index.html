@@ -17,100 +17,122 @@
         body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 8px; -webkit-text-size-adjust: 100%; }
         .container { max-width: 600px; margin: 0 auto; }
         
-        .top-bar { background: #2c3e50; color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .top-bar h1 { margin: 0; font-size: 1rem; }
+        .top-bar { background: #2c3e50; color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 8px; }
+        .top-bar-flex { display: flex; justify-content: space-between; align-items: flex-end; }
+        .top-bar h1 { margin: 0 0 4px 0; font-size: 1.1rem; }
         .quota-box { text-align: right; }
         .quota-box .label { font-size: 0.65rem; color: #bbb; }
-        .quota-box .value { font-size: 1.1rem; color: #ffeb3b; font-weight: bold; }
+        .quota-box .value { font-size: 1.2rem; color: #ffeb3b; font-weight: bold; }
+        
+        .pace-box { background: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 8px; margin-top: 8px; font-size: 0.8rem; color: #e0e0e0; display: flex; flex-direction: column; gap: 4px; }
+        .pace-row { display: flex; justify-content: space-between; align-items: center; }
+        .pace-box span.highlight { font-weight: bold; font-size: 0.9rem; }
+        .pace-box span.date { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        .card { background: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 8px; }
+        .progress-wrapper { margin-top: 8px; }
+        .progress-bar-bg { background: rgba(255, 255, 255, 0.2); border-radius: 6px; height: 10px; width: 100%; overflow: hidden; position: relative; }
+        .progress-bar-fill { background: #4caf50; height: 100%; width: 0%; transition: width 0.4s ease; }
+        .progress-text { font-size: 0.65rem; color: #fff; text-align: right; margin-top: 2px; }
+
+        .card { background: #fff; padding: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 8px; }
         
-        details.settings { background: #e0e0e0; padding: 8px; border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem; }
-        
-        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+        details.settings { background: #e0e0e0; padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem; }
+        details.settings summary { font-weight: bold; cursor: pointer; }
+        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .settings-grid > div { min-width: 0; }
-        .settings-grid input { width: 100%; min-width: 0; padding: 6px 4px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
+        .settings-grid input { width: 100%; min-width: 0; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
         
-        .backup-row { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #bdbdbd; }
-        .backup-row button { flex: 1; padding: 8px; border: none; border-radius: 4px; font-weight: bold; color: white; cursor: pointer; font-size: 0.8rem;}
+        .backup-row { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #bdbdbd; }
+        .backup-row button { flex: 1; padding: 10px; border: none; border-radius: 4px; font-weight: bold; color: white; cursor: pointer; font-size: 0.8rem;}
         .btn-export { background-color: #4caf50; }
         .btn-import { background-color: #ff9800; }
 
-        .date-label { font-size: 0.8rem; font-weight: bold; margin-bottom: 4px; display: block; }
-        .input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .date-label { font-size: 0.8rem; font-weight: bold; margin-bottom: 6px; display: block; }
+        .input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
         .input-row input[type="date"] { padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        .today-tag { background: #2196f3; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; }
+        .today-tag { background: #2196f3; color: white; font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
         
         .action-row { display: flex; gap: 8px; }
         .action-row input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
-        .action-row button { background-color: var(--primary-color); color: white; border: none; padding: 0 15px; border-radius: 6px; font-weight: bold; }
+        .action-row button { background-color: var(--primary-color); color: white; border: none; padding: 0 20px; border-radius: 6px; font-weight: bold; font-size: 1rem; }
+        
+        .preview-gain { font-size: 0.8rem; font-weight: bold; margin-top: 6px; display: none; padding-left: 2px; }
 
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .calendar-header-center { text-align: center; }
-        .calendar-header h3 { margin: 0; font-size: 0.9rem; }
+        .calendar-header h3 { margin: 0; font-size: 1rem; }
         .monthly-gain { font-size: 0.75rem; color: var(--primary-color); font-weight: bold; margin-top: 2px; }
         
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-        .day-label { text-align: center; font-weight: bold; font-size: 0.65rem; color: #7f8c8d; }
-        .day-cell { background: #fff; border: 1px solid #eee; min-height: 60px; padding: 2px; border-radius: 4px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
-        .day-num { font-size: 0.7rem; color: #95a5a6; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .day-label { text-align: center; font-weight: bold; font-size: 0.7rem; color: #7f8c8d; margin-bottom: 2px; }
+        
+        .day-cell { background: #fff; border: 1px solid #eee; min-height: 65px; padding: 2px; border-radius: 6px; position: relative; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: transform 0.1s ease, box-shadow 0.1s ease; }
+        .day-cell:active { transform: scale(0.95); }
+        
+        .day-num { font-size: 0.7rem; color: #95a5a6; padding-left: 2px; }
         
         .day-cell.is-today { border: 2px solid var(--today-border) !important; background-color: #e3f2fd; }
-        .day-cell.is-today::after { content: "今日"; position: absolute; top: 0; right: 2px; font-size: 0.5rem; color: var(--today-border); font-weight: bold; }
+        .day-cell.is-today::after { content: "今日"; position: absolute; top: 0; right: 2px; font-size: 0.5rem; color: var(--today-border); font-weight: bold; z-index: 2; }
 
-        /* status系 */
         .day-cell.status-reached { background-color: var(--success-bg) !important; border-color: #a5d6a7 !important; }
         .day-cell.status-missed { background-color: var(--error-bg) !important; border-color: #ffcc80 !important; }
         
-        /* ▼ ノマクエ2倍期間用のスタイル ▼ */
         .bonus-period.day-cell { background-color: #fff9c4; border-color: #ffd54f; }
         .day-cell.bonus-period.status-reached { background-color: #d1e7d2 !important; border-color: #c5e1c6 !important; }
         .day-cell.bonus-period.status-missed { background-color: #fee9cc !important; border-color: #ffdcb0 !important; }
 
-        /* ▼ 帯デザインを修正：セルの最上部に横いっぱいの細長い帯 ▼ */
-        .bonus-band {
-            background: linear-gradient(90deg, #ff416c, #ff4b2b); /* 目立つ赤系のグラデーション */
-            color: #fff;
-            text-align: center;
-            font-size: 0.5rem; /* 小さく */
-            font-weight: bold;
-            display: block; /* ブロック要素にして横いっぱいに */
-            width: calc(100% + 4px); /* セルの余白(2px)を無視して左右いっぱいに */
-            margin-left: -2px;
-            margin-top: -2px; /* セルの上余白(2px)を無視して最上部に */
-            margin-bottom: 2px; /* 日付との間隔 */
-            padding: 1px 0; /* 縦幅を極限まで細く */
-            line-height: 1;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-            letter-spacing: 0.5px;
-            border-top-left-radius: 4px; /* 親セルの角丸に合わせる */
-            border-top-right-radius: 4px;
-        }
+        .bonus-band { background: linear-gradient(90deg, #ff416c, #ff4b2b); color: #fff; text-align: center; font-size: 0.55rem; font-weight: bold; display: block; width: calc(100% + 4px); margin-left: -2px; margin-top: -2px; margin-bottom: 2px; padding: 2px 0; line-height: 1; box-shadow: 0 1px 1px rgba(0,0,0,0.1); border-top-left-radius: 5px; border-top-right-radius: 5px; }
 
-        .day-info { font-size: 0.6rem; font-weight: bold; text-align: center; margin-top: auto; line-height: 1.1; width: 100%; }
-        .emoji { font-size: 0.8rem; display: block; margin-bottom: 2px; }
+        .day-cell.bonus-period.is-today::after { top: 14px; background-color: rgba(255, 255, 255, 0.8); padding: 0 2px; border-radius: 2px; }
+
+        .day-info { font-size: 0.65rem; font-weight: bold; text-align: center; margin-top: auto; line-height: 1.1; width: 100%; padding-bottom: 2px; pointer-events: none; }
+        .emoji { font-size: 0.85rem; display: block; margin-bottom: 2px; }
         .text-reached { color: #2e7d32; }
         .text-missed { color: #e65100; }
         .day-gain { font-size: 0.55rem; color: #666; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 
-        .delete-btn { position: absolute; top: -2px; left: -2px; background: #f44336; color: white; border: none; border-radius: 50%; width: 16px; height: 16px; font-size: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 5; }
-        .btn-danger { background: none; border: none; color: #999; font-size: 0.7rem; text-decoration: underline; width: 100%; margin-top: 10px; padding-bottom: 20px;}
+        .delete-btn { position: absolute; top: -4px; left: -4px; background: #f44336; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 5; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        
+        .btn-danger { background: none; border: none; color: #999; font-size: 0.8rem; text-decoration: underline; width: 100%; margin-top: 15px; padding-bottom: 20px;}
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="top-bar">
-        <div>
-            <h1>ランク解放計画</h1>
-            <div style="font-size: 0.7rem; color: #bbb;">
-                残り: <span id="displayReqExp">---</span>
-                (あと <span id="displayRemainingDays" style="color: #fff; font-weight: bold;">--</span> 日)
+        <div class="top-bar-flex">
+            <div>
+                <h1>ランク解放計画</h1>
+                <div style="font-size: 0.75rem; color: #bbb;">
+                    残り: <span id="displayReqExp">---</span>
+                    (あと <span id="displayRemainingDays" style="color: #fff; font-weight: bold; font-size: 0.9rem;">--</span> 日)
+                </div>
+            </div>
+            <div class="quota-box">
+                <div class="label">1日の目標ノルマ</div>
+                <div class="value" id="displayQuota">---</div>
             </div>
         </div>
-        <div class="quota-box">
-            <div class="label">1日の目標ノルマ</div>
-            <div class="value" id="displayQuota">---</div>
+        
+        <div class="pace-box" id="paceBox" style="display: none;">
+            <div class="pace-row">
+                <span>現在の貯金 (ノルマ超過分):</span>
+                <span class="highlight" id="displaySurplus">---</span>
+            </div>
+            <div class="pace-row">
+                <span>予想達成日:</span>
+                <div>
+                    <span class="date" id="displayEstDate">---</span>
+                    <span id="displayAdvance" style="font-size: 0.75rem; margin-left: 4px;">(--)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-wrapper">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">0%</div>
         </div>
     </div>
 
@@ -119,11 +141,11 @@
         <div class="settings-grid">
             <div style="grid-column: span 2;">
                 <label>目標累計経験値</label>
-                <input type="text" id="targetExp" inputmode="numeric" onchange="updateConfig()" onblur="formatInput(this)">
+                <input type="text" id="targetExp" inputmode="numeric" oninput="formatRealTime(this)" onchange="updateConfig()">
             </div>
             <div>
                 <label>現在の累計</label>
-                <input type="text" id="currentExp" inputmode="numeric" onchange="updateConfig()" onblur="formatInput(this)">
+                <input type="text" id="currentExp" inputmode="numeric" oninput="formatRealTime(this)" onchange="updateConfig()">
             </div>
             <div>
                 <label>目標日</label>
@@ -136,34 +158,35 @@
         </div>
     </details>
 
-    <div class="card">
-        <label class="date-label">記録日を選択</label>
+    <div class="card" id="inputCard">
+        <label class="date-label">記録する日付</label>
         <div class="input-row">
             <input type="date" id="recordDate" onchange="updateStartExp()">
             <span id="todayTag" class="today-tag" style="display:none;">今日</span>
         </div>
+        <div style="font-size: 0.75rem; color: #666; margin-bottom: 8px;">
+            開始時の累計: <span id="startExpDisplay" style="font-weight: bold;">---</span>
+        </div>
         <div class="action-row">
-            <input type="text" id="endExp" inputmode="numeric" placeholder="終了時の累計を入力" onblur="formatInput(this)">
+            <input type="text" id="endExp" inputmode="numeric" placeholder="終了時の累計を入力" oninput="formatRealTime(this); previewGain();">
             <button onclick="recordDaily()">記録</button>
         </div>
-        <div style="font-size: 0.7rem; color: #666; margin-top: 5px;">
-            開始時の累計: <span id="startExpDisplay">---</span>
-        </div>
+        <div id="gainPreview" class="preview-gain">今日の獲得予定: ---</div>
     </div>
 
     <div class="card">
         <div class="calendar-header">
-            <button onclick="changeMonth(-1)" style="background:none;border:none;color:#1976d2;font-weight:bold;font-size:1.2rem;padding:0 10px;">◀</button>
+            <button onclick="changeMonth(-1)" style="background:none;border:none;color:#1976d2;font-weight:bold;font-size:1.2rem;padding:5px 15px; cursor:pointer;">◀</button>
             <div class="calendar-header-center">
                 <h3 id="calendarMonth">202X年 X月</h3>
                 <div id="monthlyGain" class="monthly-gain">今月の獲得: ---</div>
             </div>
-            <button onclick="changeMonth(1)" style="background:none;border:none;color:#1976d2;font-weight:bold;font-size:1.2rem;padding:0 10px;">▶</button>
+            <button onclick="changeMonth(1)" style="background:none;border:none;color:#1976d2;font-weight:bold;font-size:1.2rem;padding:5px 15px; cursor:pointer;">▶</button>
         </div>
         <div id="calendar" class="calendar-grid"></div>
     </div>
 
-    <button class="btn-danger" onclick="resetAll()">データをリセット</button>
+    <button class="btn-danger" onclick="resetAll()">全データをリセット</button>
 </div>
 
 <script>
@@ -176,7 +199,7 @@
 
     function parseNumber(val) {
         if (!val && val !== 0 && val !== '0') return 0;
-        const num = Number(String(val).replace(/,/g, ''));
+        const num = Number(String(val).replace(/,/g, '').replace(/[^0-9-]/g, ''));
         return isNaN(num) ? 0 : num;
     }
 
@@ -185,9 +208,36 @@
         return parseNumber(val).toLocaleString();
     }
 
-    function formatInput(ele) {
-        if(ele.value.trim() !== "") {
-            ele.value = formatNumber(ele.value);
+    function formatRealTime(ele) {
+        let val = ele.value.replace(/,/g, '').replace(/[^0-9]/g, '');
+        if (val !== "") {
+            ele.value = Number(val).toLocaleString();
+        } else {
+            ele.value = "";
+        }
+    }
+
+    function previewGain() {
+        const endVal = document.getElementById('endExp').value;
+        const previewEl = document.getElementById('gainPreview');
+        if (!endVal) {
+            previewEl.style.display = 'none';
+            return;
+        }
+        
+        const end = parseNumber(endVal);
+        const start = config.current;
+        const gain = end - start;
+        const quota = calculateCurrentQuota();
+
+        previewEl.style.display = 'block';
+        if (gain < 0) {
+            previewEl.innerHTML = `⚠️ 開始時(${start.toLocaleString()})より少ないです`;
+            previewEl.style.color = '#e65100';
+        } else {
+            const isReached = gain >= quota;
+            previewEl.innerHTML = `獲得予定: <b>+${formatShortNumber(gain)}</b> ${isReached ? '(🎉ノルマ達成)' : ''}`;
+            previewEl.style.color = isReached ? '#2e7d32' : '#1976d2';
         }
     }
 
@@ -263,7 +313,7 @@
         const gain = end - start;
         const quota = calculateCurrentQuota();
 
-        if (gain < 0) return alert("累計が開始時より減少しています");
+        if (gain < 0) return alert("累計が開始時より減少しています。入力値を確認してください。");
 
         history[targetDate] = {
             gain: gain,
@@ -275,9 +325,13 @@
         save();
         
         document.getElementById('endExp').value = "";
+        document.getElementById('gainPreview').style.display = 'none'; 
         document.getElementById('currentExp').value = formatNumber(config.current);
         refreshDisplay();
         document.getElementById('endExp').blur();
+        
+        document.getElementById('recordDate').value = getLocalToday();
+        checkTodayTag();
     }
 
     function refreshDisplay() {
@@ -287,11 +341,78 @@
         const quota = calculateCurrentQuota();
         const remainingDays = getRemainingDays();
 
-        document.getElementById('displayReqExp').innerText = remainingExp > 0 ? remainingExp.toLocaleString() : "達成！";
+        document.getElementById('displayReqExp').innerText = remainingExp > 0 ? remainingExp.toLocaleString() : "🎉 達成済！";
         document.getElementById('displayRemainingDays').innerText = remainingDays;
         document.getElementById('displayQuota').innerText = quota.toLocaleString();
         
+        let totalSurplus = 0;
+        for (const date in history) {
+            const record = history[date];
+            if (record.quota !== undefined) {
+                totalSurplus += (record.gain - record.quota);
+            }
+        }
+
+        const paceBox = document.getElementById('paceBox');
+        if (Object.keys(history).length > 0 && quota > 0 && config.targetDate) {
+            paceBox.style.display = 'flex';
+            
+            const surplusEl = document.getElementById('displaySurplus');
+            if (totalSurplus > 0) {
+                surplusEl.innerText = '+' + totalSurplus.toLocaleString();
+                surplusEl.style.color = '#81c784'; 
+            } else if (totalSurplus < 0) {
+                surplusEl.innerText = totalSurplus.toLocaleString();
+                surplusEl.style.color = '#e57373'; 
+            } else {
+                surplusEl.innerText = '±0';
+                surplusEl.style.color = '#e0e0e0';
+            }
+
+            let advancedDays = Math.trunc(totalSurplus / quota);
+            
+            let estDate = new Date(config.targetDate);
+            estDate.setDate(estDate.getDate() - advancedDays);
+            
+            document.getElementById('displayEstDate').innerText = `${estDate.getFullYear()}年${estDate.getMonth() + 1}月${estDate.getDate()}日`;
+            
+            const advEl = document.getElementById('displayAdvance');
+            if (advancedDays > 0) {
+                advEl.innerText = `(${advancedDays}日前倒し 🎉)`;
+                advEl.style.color = '#81c784';
+            } else if (advancedDays < 0) {
+                advEl.innerText = `(${Math.abs(advancedDays)}日遅れ 💦)`;
+                advEl.style.color = '#e57373';
+            } else {
+                advEl.innerText = `(予定通り)`;
+                advEl.style.color = '#e0e0e0';
+            }
+        } else {
+            paceBox.style.display = 'none';
+        }
+
+        let percent = 0;
+        if (config.target > 0) {
+            percent = (config.current / config.target) * 100;
+            if(percent > 100) percent = 100;
+        }
+        document.getElementById('progressBar').style.width = `${percent}%`;
+        document.getElementById('progressText').innerText = `${percent.toFixed(2)}%`;
+
         renderCalendar();
+    }
+
+    function selectDateFromCalendar(dateStr) {
+        document.getElementById('recordDate').value = dateStr;
+        checkTodayTag();
+        updateStartExp();
+        
+        const inputCard = document.getElementById('inputCard');
+        inputCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        setTimeout(() => {
+            document.getElementById('endExp').focus();
+        }, 300);
     }
 
     function renderCalendar() {
@@ -324,12 +445,12 @@
             
             const cell = document.createElement('div');
             cell.className = 'day-cell' + (isToday ? ' is-today' : '');
+            
+            cell.onclick = function() { selectDateFromCalendar(dateStr); };
 
-            // ▼ 5月(month=4)の15日〜21日なら2倍のスタイルを追加 ▼
             const isBonus = (month === 4 && d >= 15 && d <= 21);
             if (isBonus) cell.classList.add('bonus-period');
 
-            // ▼ HTML生成ロジック：日付と帯を分離、帯を最上部に ▼
             let content = `
                 ${isBonus ? '<div class="bonus-band">2倍</div>' : ''}
                 <div class="day-num">${d}</div>
@@ -347,7 +468,7 @@
                             ${data.reached ? '到達' : '未達'}
                         </span>
                         <span class="day-gain" title="+${data.gain.toLocaleString()}">
-                            +${data.gain.toLocaleString()}
+                            +${formatShortNumber(data.gain)}
                         </span>
                     </div>`;
             }
@@ -355,7 +476,24 @@
             container.appendChild(cell);
         }
 
-        document.getElementById('monthlyGain').innerText = `今月の獲得: +${monthlyGainTotal.toLocaleString()}`;
+        document.getElementById('monthlyGain').innerText = `今月の獲得: +${formatShortNumber(monthlyGainTotal)}`;
+    }
+    
+    // ▼ 修正: 億単位の表示に対応 ▼
+    function formatShortNumber(num) {
+        if (num >= 100000000) {
+            const oku = Math.floor(num / 100000000);
+            const man = Math.floor((num % 100000000) / 10000);
+            if (man > 0) {
+                return oku.toLocaleString() + "億" + man.toLocaleString() + "万";
+            } else {
+                return oku.toLocaleString() + "億";
+            }
+        } else if (num >= 10000) {
+            const man = Math.floor(num / 10000);
+            return man.toLocaleString() + "万";
+        }
+        return num.toLocaleString();
     }
 
     function deleteRecord(dateStr, event) {
@@ -384,7 +522,7 @@
     }
 
     function resetAll() {
-        if(confirm("全消去しますか？")) {
+        if(confirm("全てのデータを消去し、初期状態に戻しますか？（※復元できなくなります）")) {
             localStorage.clear();
             location.reload();
         }
@@ -396,7 +534,7 @@
         
         if (navigator.clipboard) {
             navigator.clipboard.writeText(dataStr).then(() => {
-                alert("✅ バックアップコードをコピーしました！\niPhoneの「メモ帳」アプリなどに貼り付けて保存しておいてください。");
+                alert("✅ バックアップコードをコピーしました！\nスマホの「メモ帳」アプリなどに貼り付けて保存しておいてください。");
             }).catch(() => fallbackCopy(dataStr));
         } else {
             fallbackCopy(dataStr);
@@ -431,7 +569,7 @@
                 document.getElementById('targetDateInput').value = config.targetDate;
                 refreshDisplay();
                 
-                alert("🎉 データの復元に成功しました！\n（以前のバージョンのデータも自動で最新仕様に変換されています）");
+                alert("🎉 データの復元に成功しました！");
             } else {
                 alert("❌ コードの形式が間違っています");
             }
