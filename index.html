@@ -136,28 +136,6 @@
         </div>
     </div>
 
-    <details class="settings">
-        <summary>⚙️ 設定・手動修正・バックアップ</summary>
-        <div class="settings-grid">
-            <div style="grid-column: span 2;">
-                <label>目標累計経験値</label>
-                <input type="text" id="targetExp" inputmode="numeric" oninput="formatRealTime(this)" onchange="updateConfig()">
-            </div>
-            <div>
-                <label>現在の累計</label>
-                <input type="text" id="currentExp" inputmode="numeric" oninput="formatRealTime(this)" onchange="updateConfig()">
-            </div>
-            <div>
-                <label>目標日</label>
-                <input type="date" id="targetDateInput" onchange="updateConfig()">
-            </div>
-        </div>
-        <div class="backup-row">
-            <button class="btn-export" onclick="exportData()">💾 バックアップ</button>
-            <button class="btn-import" onclick="importData()">🔄 データ復元</button>
-        </div>
-    </details>
-
     <div class="card" id="inputCard">
         <label class="date-label">記録する日付</label>
         <div class="input-row">
@@ -185,6 +163,28 @@
         </div>
         <div id="calendar" class="calendar-grid"></div>
     </div>
+
+    <details class="settings">
+        <summary>⚙️ 設定・手動修正・バックアップ</summary>
+        <div class="settings-grid">
+            <div style="grid-column: span 2;">
+                <label>目標累計経験値</label>
+                <input type="text" id="targetExp" inputmode="numeric" oninput="formatRealTime(this)" onchange="updateConfig()">
+            </div>
+            <div>
+                <label>現在の累計</label>
+                <input type="text" id="currentExp" inputmode="numeric" oninput="formatRealTime(this)" onchange="updateConfig()">
+            </div>
+            <div>
+                <label>目標日</label>
+                <input type="date" id="targetDateInput" onchange="updateConfig()">
+            </div>
+        </div>
+        <div class="backup-row">
+            <button class="btn-export" onclick="exportData()">💾 バックアップ</button>
+            <button class="btn-import" onclick="importData()">🔄 データ復元</button>
+        </div>
+    </details>
 
     <button class="btn-danger" onclick="resetAll()">全データをリセット</button>
 </div>
@@ -479,7 +479,6 @@
         document.getElementById('monthlyGain').innerText = `今月の獲得: +${formatShortNumber(monthlyGainTotal)}`;
     }
     
-    // ▼ 修正: 億単位の表示に対応 ▼
     function formatShortNumber(num) {
         if (num >= 100000000) {
             const oku = Math.floor(num / 100000000);
